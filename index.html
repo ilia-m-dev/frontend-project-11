@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+  <link rel="stylesheet" href="/src/style.css">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Vite App</title>
+</head>
+
+<body>
+  <header class="bg-dark text-white py-5">
+    <div class="container">
+      <div class="row justify-content-center">
+        <div class="col-lg-8">
+          <h1 class="display-4">RSS агрегатор</h1>
+          <p class="lead">
+            Начните читать RSS сегодня! Это легко, это красиво.
+          </p>
+          <form class="row g-2 mt-3">
+            <div class="col-md-9">
+              <input type="text" class="form-control form-control-lg" placeholder="Ссылка RSS" />
+              <small class="text-white-50">
+                Пример: https://lorem-rss.hexlet.app/feed
+              </small>
+            </div>
+            <div class="col-md-3">
+              <button class="btn btn-primary btn-lg w-100">
+                Добавить
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <script type="module" src="/src/main.js"></script>
+</body>
+
+</html>
