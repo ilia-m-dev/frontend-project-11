@@ -15,6 +15,9 @@
     "vite": "^6.3.1"
   },
   "dependencies": {
-    "bootstrap": "^5.3.8"
+    "bootstrap": "^5.3.8",
+    "i18next": "^25.8.20",
+    "valtio": "^2.3.1",
+    "yup": "^1.7.1"
   }
 }
