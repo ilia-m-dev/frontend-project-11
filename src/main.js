@@ -5,6 +5,7 @@ import state from './state.js';
 import app from './app.js';
 import view from './view.js';
 import resources from './locales.js';
+import runFeedsUpdater from './updateFeeds.js';
 
 const elements = {
   form: document.querySelector('form'),
@@ -42,6 +43,8 @@ const init = async () => {
         elements.input.focus();
       });
   });
+
+  runFeedsUpdater();
 };
 
 init();
