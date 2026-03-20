@@ -1,5 +1,5 @@
 {
-  "name": "vite-project",
+  "name": "@hexlet/code",
   "private": true,
   "version": "0.0.0",
   "type": "module",
@@ -15,6 +15,7 @@
     "vite": "^6.3.1"
   },
   "dependencies": {
+    "axios": "^1.13.6",
     "bootstrap": "^5.3.8",
     "i18next": "^25.8.20",
     "valtio": "^2.3.1",

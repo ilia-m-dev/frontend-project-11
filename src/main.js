@@ -11,6 +11,8 @@ const elements = {
   input: document.querySelector('input[name="url"]'),
   submitButton: document.querySelector('button[type="submit"]'),
   feedback: document.querySelector('.feedback'),
+  feedsContainer: document.querySelector('.feeds'),
+  postsContainer: document.querySelector('.posts'),
 };
 
 const init = async () => {

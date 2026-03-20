@@ -1,66 +1,73 @@
 <!doctype html>
 <html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <link rel="stylesheet" href="/src/style.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>RSS агрегатор</title>
+  </head>
 
-<head>
-  <meta charset="UTF-8" />
-  <link rel="icon" type="image/svg+xml" href="/vite.svg" />
-  <link rel="stylesheet" href="/src/style.css">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>RSS агрегатор</title>
-</head>
+  <body class="min-vh-100 d-flex flex-column">
+    <header class="bg-dark text-white py-5">
+      <div class="container">
+        <div class="row justify-content-center">
+          <div class="col-lg-8">
+            <h1 class="display-3">RSS агрегатор</h1>
+            <p class="lead">Начните читать RSS сегодня! Это легко, это красиво.</p>
 
-<body>
-  <header class="bg-dark text-white py-5">
-    <div class="container">
-      <div class="row justify-content-center">
-        <div class="col-lg-8">
+            <form class="rss-form mt-3">
+              <div class="row g-2">
+                <div class="col-md-9">
+                  <div class="form-floating">
+                    <input
+                      id="url-input"
+                      name="url"
+                      type="text"
+                      class="form-control form-control-lg"
+                      placeholder="Ссылка RSS"
+                      required
+                    >
+                    <label for="url-input">Ссылка RSS</label>
+                  </div>
+                </div>
 
-          <h1 class="display-4">RSS агрегатор</h1>
+                <div class="col-md-3 d-grid">
+                  <button type="submit" class="btn btn-primary btn-lg">
+                    Добавить
+                  </button>
+                </div>
+              </div>
 
-          <p class="lead">
-            Начните читать RSS сегодня! Это легко, это красиво.
-          </p>
-
-<form class="rss-form mt-3">
-  <div class="row g-2">
-    <div class="col-md-9">
-      <div class="form-floating">
-        <input
-          id="url-input"
-          name="url"
-          type="text"
-          class="form-control form-control-lg"
-          placeholder="Ссылка RSS"
-          required
-        >
-        <label for="url-input">Ссылка RSS</label>
-      </div>
-    </div>
-
-    <div class="col-md-3 d-grid">
-      <button type="submit" class="btn btn-primary btn-lg">
-        Добавить
-      </button>
-    </div>
-  </div>
-
-  <div class="row">
-    <div class="col-md-9">
-      <div class="form-text text-white-50">
-        Пример: https://lorem-rss.hexlet.app/feed
-      </div>
-      <p class="feedback m-0 small"></p>
-    </div>
-  </div>
-</form>
-
+              <div class="row">
+                <div class="col-md-9">
+                  <div class="form-text text-white-50">
+                    Пример: https://lorem-rss.hexlet.app/feed
+                  </div>
+                  <p class="feedback m-0 small"></p>
+                </div>
+              </div>
+            </form>
+          </div>
         </div>
       </div>
-    </div>
-  </header>
+    </header>
 
-  <script type="module" src="/src/main.js"></script>
+    <main class="container flex-grow-1 py-5">
+      <div class="row">
+        <div class="col-md-8 order-1">
+          <div class="posts"></div>
+        </div>
+        <div class="col-md-4 order-2">
+          <div class="feeds"></div>
+        </div>
+      </div>
+    </main>
 
-</body>
+    <footer class="border-top py-3 text-center text-muted">
+      created by <a href="https://github.com/ilia-m-dev/frontend-project-11" target="_blank" rel="noopener noreferrer">Marin Ilia</a>
+    </footer>
 
+    <script type="module" src="/src/main.js"></script>
+  </body>
 </html>

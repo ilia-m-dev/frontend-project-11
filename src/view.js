@@ -1,9 +1,96 @@
 import { subscribe } from 'valtio/vanilla';
 
-export default (state, elements, i18n) => {
-  const { input, submitButton, feedback } = elements;
+const createFeedItem = (feed) => {
+  const item = document.createElement('li');
+  item.classList.add('list-group-item', 'border-0', 'px-0');
 
-  const render = () => {
+  const title = document.createElement('h3');
+  title.classList.add('h5', 'mb-1');
+  title.textContent = feed.title;
+
+  const description = document.createElement('p');
+  description.classList.add('text-muted', 'mb-0');
+  description.textContent = feed.description;
+
+  item.append(title, description);
+  return item;
+};
+
+const createPostItem = (post) => {
+  const item = document.createElement('li');
+  item.classList.add(
+    'list-group-item',
+    'border-0',
+    'px-0',
+    'd-flex',
+    'justify-content-between',
+    'align-items-start',
+  );
+
+  const link = document.createElement('a');
+  link.href = post.link;
+  link.target = '_blank';
+  link.rel = 'noopener noreferrer';
+  link.textContent = post.title;
+
+  const button = document.createElement('a');
+  button.href = post.link
+  button.target = '_blank';
+  button.classList.add('btn', 'btn-outline-primary', 'btn-sm');
+  button.textContent = 'Просмотр';
+
+  item.append(link, button);
+  return item;
+};
+
+const renderFeeds = (container, feeds) => {
+  container.innerHTML = '';
+
+  if (feeds.length === 0) return;
+
+  const title = document.createElement('h2');
+  title.classList.add('mb-4');
+  title.textContent = 'Фиды';
+
+  const list = document.createElement('ul');
+  list.classList.add('list-group');
+
+  feeds.forEach((feed) => {
+    list.append(createFeedItem(feed));
+  });
+
+  container.append(title, list);
+};
+
+const renderPosts = (container, posts) => {
+  container.innerHTML = '';
+
+  if (posts.length === 0) return;
+
+  const title = document.createElement('h2');
+  title.classList.add('mb-4');
+  title.textContent = 'Посты';
+
+  const list = document.createElement('ul');
+  list.classList.add('list-group');
+
+  posts.forEach((post) => {
+    list.append(createPostItem(post));
+  });
+
+  container.append(title, list);
+};
+
+export default (state, elements, i18n) => {
+  const {
+    input,
+    submitButton,
+    feedback,
+    feedsContainer,
+    postsContainer,
+  } = elements;
+
+  const renderForm = () => {
     const { state: formState, error } = state.form;
 
     input.classList.remove('is-invalid', 'is-valid');
@@ -25,6 +112,12 @@ export default (state, elements, i18n) => {
     const isProcessing = formState === 'processing';
     input.disabled = isProcessing;
     submitButton.disabled = isProcessing;
+  };
+
+  const render = () => {
+    renderForm();
+    renderPosts(postsContainer, state.posts);
+    renderFeeds(feedsContainer, state.feeds);
   };
 
   render();

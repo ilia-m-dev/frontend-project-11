@@ -6,4 +6,5 @@ export default proxy({
     error: null,
   },
   feeds: [],
+  posts: []
 });
