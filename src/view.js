@@ -99,7 +99,7 @@ const renderPosts = (container, posts, viewedPostIds) => {
 const renderModal = (state, elements) => {
   const post = state.posts.find(({ id }) => id === state.ui.modalPostId);
 
-  if (!post) {
+  if (!post || !elements.modalTitle || !elements.modalBody || !elements.modalFullArticleLink) {
     return;
   }
 

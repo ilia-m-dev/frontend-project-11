@@ -1,5 +1,5 @@
 const getTextContent = (element, tagName) => {
-  const node = element.getElementsByTagName(tagName)[0];
+  const node = element.querySelector(tagName);
   return node?.textContent?.trim() ?? '';
 };
 
@@ -7,9 +7,13 @@ const makeParsingError = () => new Error('errors.invalidRss');
 
 export default (rssContent) => {
   const parser = new DOMParser();
-  const document = parser.parseFromString(rssContent, 'application/xml');
+  const document = parser.parseFromString(rssContent, 'text/xml');
 
-  const channel = document.getElementsByTagName('channel')[0];
+  if (document.querySelector('parsererror')) {
+    throw makeParsingError();
+  }
+
+  const channel = document.querySelector('channel');
 
   if (!channel) {
     throw makeParsingError();
@@ -22,7 +26,7 @@ export default (rssContent) => {
     throw makeParsingError();
   }
 
-  const items = Array.from(channel.getElementsByTagName('item'));
+  const items = Array.from(document.querySelectorAll('item'));
 
   const posts = items
     .map((item) => ({

@@ -56,6 +56,7 @@ const init = async () => {
 
   elements.postsContainer.addEventListener('click', (e) => {
     const trigger = e.target.closest('[data-id]');
+
     if (!trigger) {
       return;
     }
