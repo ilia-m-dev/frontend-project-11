@@ -1,10 +1,10 @@
 import axios from 'axios';
+import uniqueId from 'lodash/uniqueId.js';
 import state from './state.js';
 import { buildUrlSchema } from './validators.js';
 import parseRss from './parser.js';
 
 const normalizeUrl = (value) => value.trim();
-
 const getProxyUrl = () => 'https://allorigins.hexlet.app/get';
 
 const fetchRss = (url) => axios.get(getProxyUrl(), {
@@ -14,22 +14,8 @@ const fetchRss = (url) => axios.get(getProxyUrl(), {
   },
 });
 
-const getRssContent = (response) => {
-  const { data } = response;
-
-  if (typeof data === 'string') {
-    return data;
-  }
-
-  if (typeof data?.contents === 'string') {
-    return data.contents;
-  }
-
-  throw new Error('errors.invalidRss');
-};
-
 const addFeedWithPosts = (url, feedData) => {
-  const feedId = crypto.randomUUID();
+  const feedId = uniqueId('feed_');
 
   state.feeds.unshift({
     id: feedId,
@@ -39,7 +25,7 @@ const addFeedWithPosts = (url, feedData) => {
   });
 
   const posts = feedData.posts.map((post) => ({
-    id: crypto.randomUUID(),
+    id: uniqueId('post_'),
     feedId,
     title: post.title,
     description: post.description,
@@ -52,6 +38,10 @@ const addFeedWithPosts = (url, feedData) => {
 const getErrorKey = (error) => {
   if (error?.message?.startsWith('errors.')) {
     return error.message;
+  }
+
+  if (error?.isParsingError) {
+    return 'errors.invalidRss';
   }
 
   if (axios.isAxiosError(error)) {
@@ -76,7 +66,7 @@ export default () => {
     return validate(url)
       .then((validatedUrl) => (
         fetchRss(validatedUrl)
-          .then((response) => parseRss(getRssContent(response)))
+          .then((response) => parseRss(response.data.contents))
           .then((feedData) => {
             addFeedWithPosts(validatedUrl, feedData);
             state.form.state = 'success';

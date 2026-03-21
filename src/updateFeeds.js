@@ -1,4 +1,5 @@
 import axios from 'axios';
+import uniqueId from 'lodash/uniqueId.js';
 import state from './state.js';
 import parseRss from './parser.js';
 
@@ -13,20 +14,6 @@ const fetchRss = (url) => axios.get(getProxyUrl(), {
   },
 });
 
-const getRssContent = (response) => {
-  const { data } = response;
-
-  if (typeof data === 'string') {
-    return data;
-  }
-
-  if (typeof data?.contents === 'string') {
-    return data.contents;
-  }
-
-  throw new Error('errors.invalidRss');
-};
-
 const getExistingLinks = () => state.posts.map((post) => post.link);
 
 const addNewPosts = (feedId, posts) => {
@@ -35,7 +22,7 @@ const addNewPosts = (feedId, posts) => {
   const newPosts = posts
     .filter((post) => !existingLinks.includes(post.link))
     .map((post) => ({
-      id: crypto.randomUUID(),
+      id: uniqueId('post_'),
       feedId,
       title: post.title,
       description: post.description,
@@ -49,7 +36,7 @@ const addNewPosts = (feedId, posts) => {
 
 const updateFeed = (feed) => (
   fetchRss(feed.url)
-    .then((response) => parseRss(getRssContent(response)))
+    .then((response) => parseRss(response.data.contents))
     .then((data) => {
       addNewPosts(feed.id, data.posts);
     })
@@ -57,7 +44,9 @@ const updateFeed = (feed) => (
 );
 
 const updateFeeds = () => {
-  Promise.all(state.feeds.map((feed) => updateFeed(feed)))
+  const promises = state.feeds.map((feed) => updateFeed(feed));
+
+  Promise.all(promises)
     .finally(() => {
       setTimeout(updateFeeds, UPDATE_INTERVAL);
     });
