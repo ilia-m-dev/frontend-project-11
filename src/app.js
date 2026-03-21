@@ -14,6 +14,20 @@ const fetchRss = (url) => axios.get(getProxyUrl(), {
   },
 });
 
+const getRssContent = (response) => {
+  const { data } = response;
+
+  if (typeof data === 'string') {
+    return data;
+  }
+
+  if (typeof data?.contents === 'string') {
+    return data.contents;
+  }
+
+  throw new Error('errors.invalidRss');
+};
+
 const addFeedWithPosts = (url, feedData) => {
   const feedId = crypto.randomUUID();
 
@@ -40,10 +54,6 @@ const getErrorKey = (error) => {
     return error.message;
   }
 
-  if (error?.isParsingError) {
-    return 'errors.invalidRss';
-  }
-
   if (axios.isAxiosError(error)) {
     return 'errors.network';
   }
@@ -66,7 +76,7 @@ export default () => {
     return validate(url)
       .then((validatedUrl) => (
         fetchRss(validatedUrl)
-          .then((response) => parseRss(response.data.contents))
+          .then((response) => parseRss(getRssContent(response)))
           .then((feedData) => {
             addFeedWithPosts(validatedUrl, feedData);
             state.form.state = 'success';

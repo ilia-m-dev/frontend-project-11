@@ -141,12 +141,12 @@ export default (state, elements, i18n) => {
     submitButton.disabled = isProcessing;
   };
 
-  const render = () => {
-    renderForm();
-    renderPosts(postsContainer, state.posts, state.ui.viewedPostIds);
-    renderFeeds(feedsContainer, state.feeds);
-    renderModal(state, elements);
-  };
+const render = () => {
+  renderForm();
+  renderPosts(postsContainer, state.posts, state.ui.viewedPostIds);
+  renderFeeds(feedsContainer, state.feeds);
+  renderModal(state, elements);
+};
 
   render();
   subscribe(state, render);

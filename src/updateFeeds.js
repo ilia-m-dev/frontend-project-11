@@ -13,6 +13,20 @@ const fetchRss = (url) => axios.get(getProxyUrl(), {
   },
 });
 
+const getRssContent = (response) => {
+  const { data } = response;
+
+  if (typeof data === 'string') {
+    return data;
+  }
+
+  if (typeof data?.contents === 'string') {
+    return data.contents;
+  }
+
+  throw new Error('errors.invalidRss');
+};
+
 const getExistingLinks = () => state.posts.map((post) => post.link);
 
 const addNewPosts = (feedId, posts) => {
@@ -35,19 +49,15 @@ const addNewPosts = (feedId, posts) => {
 
 const updateFeed = (feed) => (
   fetchRss(feed.url)
-    .then((response) => parseRss(response.data.contents))
+    .then((response) => parseRss(getRssContent(response)))
     .then((data) => {
       addNewPosts(feed.id, data.posts);
     })
-    .catch(() => {
-      // Ошибки фонового обновления не роняют приложение
-    })
+    .catch(() => {})
 );
 
 const updateFeeds = () => {
-  const promises = state.feeds.map((feed) => updateFeed(feed));
-
-  Promise.all(promises)
+  Promise.all(state.feeds.map((feed) => updateFeed(feed)))
     .finally(() => {
       setTimeout(updateFeeds, UPDATE_INTERVAL);
     });
