@@ -5,9 +5,9 @@ import parseRss from './parser.js';
 
 const normalizeUrl = (value) => value.trim();
 
-const getProxyUrl = (url) => 'https://allorigins.hexlet.app/get';
+const getProxyUrl = () => 'https://allorigins.hexlet.app/get';
 
-const fetchRss = (url) => axios.get(getProxyUrl(url), {
+const fetchRss = (url) => axios.get(getProxyUrl(), {
   params: {
     disableCache: true,
     url,
