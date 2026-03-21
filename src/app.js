@@ -1,8 +1,8 @@
 import axios from 'axios';
-import uniqueId from 'lodash/uniqueId.js';
 import state from './state.js';
 import { buildUrlSchema } from './validators.js';
 import parseRss from './parser.js';
+import generateId from './utils/generateId.js';
 
 const normalizeUrl = (value) => value.trim();
 const getProxyUrl = () => 'https://allorigins.hexlet.app/get';
@@ -15,7 +15,7 @@ const fetchRss = (url) => axios.get(getProxyUrl(), {
 });
 
 const addFeedWithPosts = (url, feedData) => {
-  const feedId = uniqueId('feed_');
+  const feedId = generateId();
 
   state.feeds.unshift({
     id: feedId,
@@ -25,7 +25,7 @@ const addFeedWithPosts = (url, feedData) => {
   });
 
   const posts = feedData.posts.map((post) => ({
-    id: uniqueId('post_'),
+    id: generateId(),
     feedId,
     title: post.title,
     description: post.description,

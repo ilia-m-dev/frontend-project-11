@@ -1,7 +1,7 @@
 import axios from 'axios';
-import uniqueId from 'lodash/uniqueId.js';
 import state from './state.js';
 import parseRss from './parser.js';
+import generateId from './utils/generateId.js';
 
 const UPDATE_INTERVAL = 5000;
 
@@ -22,7 +22,7 @@ const addNewPosts = (feedId, posts) => {
   const newPosts = posts
     .filter((post) => !existingLinks.includes(post.link))
     .map((post) => ({
-      id: uniqueId('post_'),
+      id: generateId(),
       feedId,
       title: post.title,
       description: post.description,
