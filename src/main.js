@@ -1,4 +1,5 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
+import 'bootstrap/dist/js/bootstrap.bundle.min.js';
 
 import i18next from 'i18next';
 import state from './state.js';
@@ -14,6 +15,15 @@ const elements = {
   feedback: document.querySelector('.feedback'),
   feedsContainer: document.querySelector('.feeds'),
   postsContainer: document.querySelector('.posts'),
+  modalTitle: document.querySelector('#postModalLabel'),
+  modalBody: document.querySelector('.modal-body'),
+  modalFullArticleLink: document.querySelector('.full-article-link'),
+};
+
+const markPostAsViewed = (postId) => {
+  if (!state.ui.viewedPostIds.includes(postId)) {
+    state.ui.viewedPostIds.push(postId);
+  }
 };
 
 const init = async () => {
@@ -42,6 +52,17 @@ const init = async () => {
       .catch(() => {
         elements.input.focus();
       });
+  });
+
+  elements.postsContainer.addEventListener('click', (e) => {
+    const trigger = e.target.closest('[data-id]');
+    if (!trigger) {
+      return;
+    }
+
+    const { id } = trigger.dataset;
+    state.ui.modalPostId = id;
+    markPostAsViewed(id);
   });
 
   runFeedsUpdater();

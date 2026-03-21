@@ -6,5 +6,9 @@ export default proxy({
     error: null,
   },
   feeds: [],
-  posts: []
+  posts: [],
+  ui: {
+    viewedPostIds: [],
+    modalPostId: null
+  }
 });
