@@ -15,7 +15,7 @@ const elements = {
   feedback: document.querySelector('.feedback'),
   feedsContainer: document.querySelector('.feeds'),
   postsContainer: document.querySelector('.posts'),
-  modalTitle: document.querySelector('#postModalLabel'),
+  modalTitle: document.querySelector('#modalLabel'),
   modalBody: document.querySelector('.modal-body'),
   modalFullArticleLink: document.querySelector('.full-article-link'),
 };

@@ -1,92 +1,101 @@
 <!doctype html>
 <html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>RSS агрегатор</title>
+  </head>
+  <body class="min-vh-100 d-flex flex-column bg-light">
+    <header class="bg-dark text-white py-5">
+      <div class="container">
+        <div class="row justify-content-center">
+          <div class="col-lg-8">
+            <h1 class="display-3">RSS агрегатор</h1>
+            <p class="lead">Начните читать RSS сегодня! Это легко, это красиво.</p>
 
-<head>
-  <meta charset="UTF-8" />
-  <link rel="icon" type="image/svg+xml" href="/vite.svg" />
-  <link rel="stylesheet" href="/src/style.css">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>RSS агрегатор</title>
-</head>
+            <form class="rss-form mt-3">
+              <div class="row g-2">
+                <div class="col-md-9">
+                  <div class="form-floating">
+                    <input
+                      id="url-input"
+                      name="url"
+                      aria-label="url"
+                      type="text"
+                      class="form-control form-control-lg"
+                      placeholder="Ссылка RSS"
+                      required
+                    />
+                    <label for="url-input">Ссылка RSS</label>
+                  </div>
+                </div>
 
-<body class="min-vh-100 d-flex flex-column">
-  <header class="bg-dark text-white py-5">
-    <div class="container">
-      <div class="row justify-content-center">
-        <div class="col-lg-8">
-          <h1 class="display-3">RSS агрегатор</h1>
-          <p class="lead">Начните читать RSS сегодня! Это легко, это красиво.</p>
-
-          <form class="rss-form mt-3">
-            <div class="row g-2">
-              <div class="col-md-9">
-                <div class="form-floating">
-                  <input id="url-input" name="url" aria-label="url" type="text" class="form-control form-control-lg"
-                    placeholder="Ссылка RSS" required>
-                  <label for="url-input">Ссылка RSS</label>
+                <div class="col-md-3 d-grid">
+                  <button type="submit" class="btn btn-primary btn-lg">
+                    Добавить
+                  </button>
                 </div>
               </div>
 
-              <div class="col-md-3 d-grid">
-                <button type="submit" class="btn btn-primary btn-lg">
-                  Добавить
-                </button>
-              </div>
-            </div>
-
-            <div class="row">
-              <div class="col-md-9">
-                <div class="form-text text-white-50">
-                  Пример: https://lorem-rss.hexlet.app/feed
+              <div class="row">
+                <div class="col-md-9">
+                  <div class="form-text text-white-50">
+                    Пример: https://lorem-rss.hexlet.app/feed
+                  </div>
+                  <p class="feedback m-0 small"></p>
                 </div>
-                <p class="feedback m-0 small"></p>
               </div>
-            </div>
-          </form>
+            </form>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <main class="container flex-grow-1 py-5">
+      <div class="row">
+        <div class="col-md-8 order-1">
+          <div class="posts"></div>
+        </div>
+
+        <div class="col-md-4 order-2">
+          <div class="feeds"></div>
+        </div>
+      </div>
+    </main>
+
+    <footer class="border-top py-3 text-center text-muted">
+      created by
+      <a
+        href="https://github.com/ilia-m-dev/frontend-project-11"
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        Marin Ilia
+      </a>
+    </footer>
+
+    <div class="modal fade" id="modal" tabindex="-1" aria-labelledby="modalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="modalLabel"></h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Закрыть"></button>
+          </div>
+
+          <div class="modal-body"></div>
+
+          <div class="modal-footer">
+            <a class="btn btn-primary full-article-link" href="#" target="_blank" rel="noopener noreferrer">
+              Читать полностью
+            </a>
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+              Закрыть
+            </button>
+          </div>
         </div>
       </div>
     </div>
-  </header>
 
-  <main class="container flex-grow-1 py-5">
-    <div class="row">
-      <div class="col-md-8 order-1">
-        <div class="posts"></div>
-      </div>
-      <div class="col-md-4 order-2">
-        <div class="feeds"></div>
-      </div>
-    </div>
-  </main>
-
-  <footer class="border-top py-3 text-center text-muted">
-    created by <a href="https://github.com/ilia-m-dev/frontend-project-11" target="_blank"
-      rel="noopener noreferrer">Marin Ilia</a>
-  </footer>
-
-  <div class="modal fade" id="postModal" tabindex="-1" aria-labelledby="postModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="postModalLabel"></h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Закрыть"></button>
-        </div>
-
-        <div class="modal-body"></div>
-
-        <div class="modal-footer">
-          <a class="btn btn-primary full-article-link" href="#" target="_blank" rel="noopener noreferrer">
-            Читать полностью
-          </a>
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
-            Закрыть
-          </button>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <script type="module" src="/src/main.js"></script>
-</body>
-
+    <script type="module" src="/src/main.js"></script>
+  </body>
 </html>

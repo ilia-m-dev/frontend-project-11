@@ -13,6 +13,7 @@ const createFeedItem = (feed) => {
   description.textContent = feed.description;
 
   item.append(title, description);
+
   return item;
 };
 
@@ -46,7 +47,7 @@ const createPostItem = (post, isViewed) => {
   button.textContent = 'Просмотр';
   button.dataset.id = post.id;
   button.setAttribute('data-bs-toggle', 'modal');
-  button.setAttribute('data-bs-target', '#postModal');
+  button.setAttribute('data-bs-target', '#modal');
 
   item.append(link, button);
 
@@ -141,12 +142,12 @@ export default (state, elements, i18n) => {
     submitButton.disabled = isProcessing;
   };
 
-const render = () => {
-  renderForm();
-  renderPosts(postsContainer, state.posts, state.ui.viewedPostIds);
-  renderFeeds(feedsContainer, state.feeds);
-  renderModal(state, elements);
-};
+  const render = () => {
+    renderForm();
+    renderPosts(postsContainer, state.posts, state.ui.viewedPostIds);
+    renderFeeds(feedsContainer, state.feeds);
+    renderModal(state, elements);
+  };
 
   render();
   subscribe(state, render);
