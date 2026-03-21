@@ -1,18 +1,18 @@
-import * as yup from 'yup';
+import * as yup from 'yup'
 
 yup.setLocale({
   mixed: {
     required: 'errors.required',
-    notOneOf: 'errors.duplicate'
+    notOneOf: 'errors.duplicate',
   },
   string: {
-    url: 'errors.invalidUrl'
-  }
+    url: 'errors.invalidUrl',
+  },
 })
 
-export const buildUrlSchema = (existingUrls) => (
+export const buildUrlSchema = existingUrls => (
   yup.string()
     .required()
     .url()
     .notOneOf(existingUrls)
-);
+)

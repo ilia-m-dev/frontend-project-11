@@ -1,4 +1,4 @@
-import { proxy } from 'valtio/vanilla';
+import { proxy } from 'valtio/vanilla'
 
 export default proxy({
   form: {
@@ -9,6 +9,6 @@ export default proxy({
   posts: [],
   ui: {
     viewedPostIds: [],
-    modalPostId: null
-  }
-});
+    modalPostId: null,
+  },
+})

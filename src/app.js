@@ -1,84 +1,84 @@
-import axios from 'axios';
-import state from './state.js';
-import { buildUrlSchema } from './validators.js';
-import parseRss from './parser.js';
-import generateId from './utils/generateId.js';
+import axios from 'axios'
+import state from './state.js'
+import { buildUrlSchema } from './validators.js'
+import parseRss from './parser.js'
+import generateId from './utils/generateId.js'
 
-const normalizeUrl = (value) => value.trim();
-const getProxyUrl = () => 'https://allorigins.hexlet.app/get';
+const normalizeUrl = value => value.trim()
+const getProxyUrl = () => 'https://allorigins.hexlet.app/get'
 
-const fetchRss = (url) => axios.get(getProxyUrl(), {
+const fetchRss = url => axios.get(getProxyUrl(), {
   params: {
     disableCache: true,
     url,
   },
-});
+})
 
 const addFeedWithPosts = (url, feedData) => {
-  const feedId = generateId();
+  const feedId = generateId()
 
   state.feeds.unshift({
     id: feedId,
     url,
     title: feedData.feed.title,
     description: feedData.feed.description,
-  });
+  })
 
-  const posts = feedData.posts.map((post) => ({
+  const posts = feedData.posts.map(post => ({
     id: generateId(),
     feedId,
     title: post.title,
     description: post.description,
     link: post.link,
-  }));
+  }))
 
-  state.posts.unshift(...posts);
-};
+  state.posts.unshift(...posts)
+}
 
 const getErrorKey = (error) => {
   if (error?.message?.startsWith('errors.')) {
-    return error.message;
+    return error.message
   }
 
   if (error?.isParsingError) {
-    return 'errors.invalidRss';
+    return 'errors.invalidRss'
   }
 
   if (axios.isAxiosError(error)) {
-    return 'errors.network';
+    return 'errors.network'
   }
 
-  return 'errors.unknown';
-};
+  return 'errors.unknown'
+}
 
 export default () => {
   const validate = (url) => {
-    const existingUrls = state.feeds.map((feed) => feed.url);
-    return buildUrlSchema(existingUrls).validate(url);
-  };
+    const existingUrls = state.feeds.map(feed => feed.url)
+    return buildUrlSchema(existingUrls).validate(url)
+  }
 
   const handleSubmit = (rawUrl) => {
-    state.form.error = null;
-    state.form.state = 'processing';
+    state.form.error = null
+    state.form.state = 'processing'
 
-    const url = normalizeUrl(rawUrl);
+    const url = normalizeUrl(rawUrl)
 
     return validate(url)
-      .then((validatedUrl) => (
+      .then(validatedUrl => (
         fetchRss(validatedUrl)
-          .then((response) => parseRss(response.data.contents))
+          .then(response => parseRss(response.data.contents))
           .then((feedData) => {
-            addFeedWithPosts(validatedUrl, feedData);
-            state.form.state = 'success';
-            return validatedUrl;
+            addFeedWithPosts(validatedUrl, feedData)
+            state.form.state = 'success'
+            return validatedUrl
           })
       ))
       .catch((error) => {
-        state.form.state = 'failed';
-        state.form.error = getErrorKey(error);
-        throw error;
-      });
-  };
+        state.form.state = 'failed'
+        state.form.error = getErrorKey(error)
+        throw error
+      })
+  }
 
-  return { handleSubmit };
-};
+  return { handleSubmit }
+}
